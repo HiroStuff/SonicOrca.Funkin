@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SonicOrca.HiroUtils</RootNamespace>
+    <AssemblyName>SonicOrca.HiroUtils</AssemblyName>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>12</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SonicOrca.SDL2\SonicOrca.SDL2.csproj" />
+    <ProjectReference Include="..\SonicOrca\SonicOrca.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,6 +1,10 @@
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using SonicOrca;
 using SonicOrca.Core;
 using SonicOrca.Drawing;
@@ -20,6 +24,12 @@ namespace SonicOrca.Funkin
         private FunkinGameSettings _settings;
         private IGameState _rootGameState;
         private Updater _gameStateUpdater;
+        private IGameState _pendingState;
+        private ResourceSession _uiResourceSession;
+        private string _uiFontKey;
+        private bool _uiFontLoadStarted;
+        private Task _uiFontLoadTask;
+        internal string UiFontResourceKey => _uiFontKey;
 
         public FunkinGameContext(IPlatform platform) : base(platform)
         {
@@ -48,15 +58,102 @@ namespace SonicOrca.Funkin
             LoadResourceFiles(Path.Combine(contentRoot, "data"));
             if (bool.Parse(Configuration.GetProperty("general", "use_mods", "true")))
                 LoadResourceFiles(Path.Combine(contentRoot, "mods"));
-            _rootGameState = new PlayState(this);
+            _rootGameState = new InitState(this);
             _gameStateUpdater = new Updater(_rootGameState.Update());
+        }
+
+        internal void RequestState(IGameState nextState)
+        {
+            if (nextState == null)
+                throw new ArgumentNullException(nameof(nextState));
+            _pendingState = nextState;
         }
 
         public override void Dispose()
         {
             _rootGameState?.Dispose();
+            _uiResourceSession?.Dispose();
+            _uiResourceSession = null;
+            _uiFontKey = null;
             base.Dispose();
         }
+
+        private async Task LoadUiFontResourcesAsync(string contentRoot)
+        {
+            string[] candidateKeys =
+            {
+                "SONICORCA/FONTS/HUD"
+            };
+
+            foreach (string key in candidateKeys)
+            {
+                if (ResourceTree[key]?.Resource == null)
+                    continue;
+                if (await TryLoadFontWithSessionAsync(key, key).ConfigureAwait(false))
+                    return;
+            }
+
+            string looseFontXml = Path.Combine(contentRoot, "assets", "fonts", "ui.font.xml");
+            if (File.Exists(looseFontXml))
+            {
+                const string looseKey = "FUNKIN/FONTS/UI";
+                ResourceTree.SetOrAddFromFile(looseKey, looseFontXml);
+                if (await TryLoadFontWithSessionAsync(looseKey, looseFontXml).ConfigureAwait(false))
+                    return;
+            }
+
+            Trace.WriteLine("[Funkin] No UI font loaded. Copy Sonic Orca data/*.dat next to the exe, or add assets/fonts/ui.font.xml (+ shape PNG paths in that XML).");
+        }
+
+        private async Task<bool> TryLoadFontWithSessionAsync(string resourceKey, string logLabel)
+        {
+            ResourceSession session = null;
+            try
+            {
+                _uiResourceSession?.Dispose();
+                _uiResourceSession = null;
+                _uiFontKey = null;
+
+                session = new ResourceSession(ResourceTree);
+                session.PushDependency(resourceKey);
+                await session.LoadAsync(CancellationToken.None, serial: true).ConfigureAwait(false);
+                if (ResourceTree.TryGetLoadedResource<Font>(resourceKey, out _))
+                {
+                    _uiResourceSession = session;
+                    session = null;
+                    _uiFontKey = resourceKey;
+                    Trace.WriteLine("[Funkin] UI font loaded: " + logLabel);
+                    return true;
+                }
+
+                session.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("[Funkin] UI font load failed (" + logLabel + "): " + ex.Message);
+                session?.Dispose();
+            }
+
+            return false;
+        }
+
+        internal bool TryGetUiFont(out Font font)
+        {
+            font = null;
+            if (string.IsNullOrEmpty(_uiFontKey))
+                return false;
+            return ResourceTree.TryGetLoadedResource<Font>(_uiFontKey, out font);
+        }
+
+        internal void BeginUiFontLoad()
+        {
+            if (_uiFontLoadStarted || _uiFontLoadTask != null)
+                return;
+            _uiFontLoadStarted = true;
+            _uiFontLoadTask = LoadUiFontResourcesAsync(GetContentRootDirectory());
+        }
+
+        internal bool IsUiFontLoadInProgress => _uiFontLoadTask != null && !_uiFontLoadTask.IsCompleted;
 
         protected override void OnUpdate()
         {
@@ -67,8 +164,26 @@ namespace SonicOrca.Funkin
 
         protected override void OnUpdateStep()
         {
+            if (_uiFontLoadTask != null && _uiFontLoadTask.IsCompleted)
+            {
+                if (_uiFontLoadTask.IsFaulted)
+                {
+                    Exception ex = _uiFontLoadTask.Exception?.GetBaseException();
+                    if (ex != null)
+                        Trace.WriteLine("[Funkin] UI font load task faulted: " + ex.Message);
+                }
+                _uiFontLoadTask = null;
+            }
+
             Console.Update();
             NetworkManager.Update();
+            if (_pendingState != null)
+            {
+                _rootGameState?.Dispose();
+                _rootGameState = _pendingState;
+                _pendingState = null;
+                _gameStateUpdater = new Updater(_rootGameState.Update());
+            }
             if (!_gameStateUpdater.Update())
                 Finish = true;
             if (Input.Pressed.Keyboard[41])

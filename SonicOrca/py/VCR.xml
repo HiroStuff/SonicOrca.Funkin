@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<font>
+	<name>vcr hud font</name>
+	<shape>/SHAPE</shape>
+	<overlay>/OVERLAYSILVER</overlay>
+	<overlay>/OVERLAYGOLD</overlay>
+	<width>24</width>
+	<height>40</height>
+	<tracking>6</tracking>
+	<shadow x="4" y="4" />
+	<chardefs>
+		<chardef char="&#x27;">
+		  <rect x="0" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="&quot;">
+		  <rect x="24" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="-">
+		  <rect x="48" y="0" w="14" h="10" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="_">
+		  <rect x="72" y="0" w="15" h="2" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="0">
+		  <rect x="96" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="1">
+		  <rect x="120" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="2">
+		  <rect x="144" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="3">
+		  <rect x="168" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="4">
+		  <rect x="192" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="5">
+		  <rect x="216" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="6">
+		  <rect x="240" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="7">
+		  <rect x="264" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="8">
+		  <rect x="288" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="9">
+		  <rect x="312" y="0" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char=":">
+		  <rect x="336" y="0" w="14" h="15" />
+		  <width>24</width>
+		</chardef>
+		<chardef char=";">
+		  <rect x="360" y="0" w="14" h="15" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="A">
+		  <rect x="0" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="B">
+		  <rect x="24" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="C">
+		  <rect x="48" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="D">
+		  <rect x="72" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="E">
+		  <rect x="96" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="F">
+		  <rect x="120" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="G">
+		  <rect x="144" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="H">
+		  <rect x="168" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="I">
+		  <rect x="192" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="J">
+		  <rect x="216" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="K">
+		  <rect x="240" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="L">
+		  <rect x="264" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="M">
+		  <rect x="288" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="N">
+		  <rect x="312" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="O">
+		  <rect x="336" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="P">
+		  <rect x="360" y="40" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="Q">
+		  <rect x="0" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="R">
+		  <rect x="24" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="S">
+		  <rect x="48" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="T">
+		  <rect x="72" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="U">
+		  <rect x="96" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="V">
+		  <rect x="120" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="W">
+		  <rect x="144" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="X">
+		  <rect x="168" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="Y">
+		  <rect x="192" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="Z">
+		  <rect x="216" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char=".">
+		  <rect x="240" y="80" w="14" h="3" />
+		  <width>24</width>
+		</chardef>
+		<chardef char=",">
+		  <rect x="264" y="80" w="14" h="6" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="*">
+		  <rect x="288" y="80" w="14" h="19" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="?">
+		  <rect x="312" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+		<chardef char="!">
+		  <rect x="336" y="80" w="14" h="18" />
+		  <width>24</width>
+		</chardef>
+	</chardefs>
+</font>
